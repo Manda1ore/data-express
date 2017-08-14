@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  form(id='form', method='post', action='/create')
+    label(for='userName') User Name: 
+    input(type='text', name='userName')
+    br
+    label(for='age') Age: 
+    input(type='text', name='age')
+    br
+    label(for='password') Password: 
+    input(type= 'text' name='password')
+    br
+    label(for='q1') What's your favorite polution? 
+    select(name='polution')
+      option(value="Water") Water Polution
+      option(value="Air") Air Polution
+      option(value='Noise') Noise Polution
+      option(value='Radioactive') Radioactive Polution
+    br
+    label(for='q2') What's your favorite food? 
+    select(name='food')
+      option(value="Pizza") Pizza
+      option(value="Steak") Steak
+      option(value="Salad") Salad
+      option(value="Crap") Crap
+    br
+    label(for='q3') What's your favorite pet? 
+    select(name='favPet')
+      option(value="Cat") Cat
+      option(value="Dog") Dog
+      option(value="Bird") Bird
+      option(value='Dinosaur') Dinosaur
+    br
+    input(type='submit', value='Add Person')
