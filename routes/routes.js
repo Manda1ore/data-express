@@ -8,6 +8,19 @@ mdb.once('open', function (callback) {
 
 });
 
+var bcrypt = require('bcrypt-nodejs');
+var hash;
+
+function makeHash(the_str){
+  
+  bcrypt.hash(the_str, null, null, function (err,hash){
+    console.log(hash);
+    bcrypt.compare("bacon",hash, function(err,res){
+      console.log(res);
+    });
+  });
+}
+
 var personSchema = mongoose.Schema({
   userName: String,
   password: String,
@@ -44,7 +57,7 @@ exports.createPerson = function (req, res) {
   var person = new Person({
     userName: req.body.userName,
     age: req.body.age,
-    password: req.body.password,
+    password: makeHash(req.body.password),
     email: req.body.email,
     q1: req.body.q1,
     q2: req.body.q2,
@@ -70,11 +83,11 @@ exports.edit = function (req, res) {
 exports.editPerson = function (req, res) {
   Person.findById(req.params.id, function (err, person) {
     if (err) return console.error(err);
-    person.name = req.body.name;
+    person.userName = req.body.userName;
     person.age = req.body.age;
-    person.species = req.body.species;
-    person.description = req.body.description;
-    person.gender = req.body.gender;
+    person.password = req.body.password;
+    person.q1 = req.body.q1;
+    person.q2 = req.body.q2;
     person.save(function (err, person) {
       if (err) return console.error(err);
       console.log(req.body.userName + ' updated');

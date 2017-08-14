@@ -2,11 +2,19 @@ var express = require('express'),
   pug = require('pug'),
   path = require('path'),
   route = require('./routes/routes.js'),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  bcrypt = require('bcrypt-nodejs');
 
 
 var app = express();
+var hash;
 
+function makeHash(the_str){
+  
+  bcrypt.hash(the_str, null, null, function (err,hash){
+    console.log(hash);
+  });
+}
 
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
