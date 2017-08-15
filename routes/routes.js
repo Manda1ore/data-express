@@ -15,9 +15,6 @@ function makeHash(the_str){
   
   bcrypt.hash(the_str, null, null, function (err,hash){
     console.log(hash);
-    bcrypt.compare("bacon",hash, function(err,res){
-      console.log(res);
-    });
   });
 }
 
@@ -85,9 +82,11 @@ exports.editPerson = function (req, res) {
     if (err) return console.error(err);
     person.userName = req.body.userName;
     person.age = req.body.age;
+    person.email = req.body.email;
     person.password = req.body.password;
     person.q1 = req.body.q1;
     person.q2 = req.body.q2;
+    person.q3 = req.body.q3;
     person.save(function (err, person) {
       if (err) return console.error(err);
       console.log(req.body.userName + ' updated');
@@ -117,3 +116,20 @@ exports.details = function (req, res) {
 exports.login = function (req,res) {
   res.render('login');
 };
+
+exports.loginPerson = function(req,res){
+  console.log(req.body.username);
+  Person.find(req.body.username, function(err, person){
+    if (err) return console.error(err);
+    bcrypt.compare(req.body.password,person.password,function(err,res){
+      console.log(res);
+    });
+  });
+  if (req.body.username == 'user' && req.body.password == 'pass') {
+        req.session.user = { isAuthenticated: true, username: req.body.username};
+        res.redirect('/');
+    } else {
+        // logout here so if the user was logged in before, it will log them out if user/pass wrong
+        res.redirect('/');
+    }
+}
