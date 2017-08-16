@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
-
 var mdb = mongoose.connection;
 mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function (callback) {
@@ -15,9 +14,12 @@ function makeHash(the_str){
   
   bcrypt.hash(the_str, null, null, function (err,hash){
     console.log(hash);
+    savePassword(hash);
   });
 }
-
+function savePassword(str){
+  hash = str;
+}
 var personSchema = mongoose.Schema({
   userName: String,
   password: String,
@@ -51,10 +53,12 @@ exports.create = function (req, res) {
 };
 
 exports.createPerson = function (req, res) {
+  makeHash(req.body.password)
+  console.log(hash);
   var person = new Person({
     userName: req.body.userName,
     age: req.body.age,
-    password: makeHash(req.body.password),
+    password: hash,
     email: req.body.email,
     q1: req.body.q1,
     q2: req.body.q2,
@@ -62,8 +66,9 @@ exports.createPerson = function (req, res) {
   });
   person.save(function (err, person) {
     if (err) return console.error(err);
-    console.log(req.body.useName + ' added');
+    console.log(req.body.userName + ' added');
   });
+  console.log(person);
   res.redirect('/');
 };
 
@@ -118,18 +123,19 @@ exports.login = function (req,res) {
 };
 
 exports.loginPerson = function(req,res){
-  console.log(req.body.username);
-  Person.find(req.body.username, function(err, person){
+  console.log(req.body.userName);
+  Person.find(req.body.userName, function(err, person){
     if (err) return console.error(err);
+    console.log(person);
     bcrypt.compare(req.body.password,person.password,function(err,res){
       console.log(res);
+      console.log(person.password);
+      if (res) {
+        req.session.user = { isAuthenticated: true, username: req.body.userName};
+        
+      } 
     });
+      res.redirect('/');
   });
-  if (req.body.username == 'user' && req.body.password == 'pass') {
-        req.session.user = { isAuthenticated: true, username: req.body.username};
-        res.redirect('/');
-    } else {
-        // logout here so if the user was logged in before, it will log them out if user/pass wrong
-        res.redirect('/');
-    }
+  
 }
