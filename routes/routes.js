@@ -19,8 +19,8 @@ function makeHash(the_str){
   console.log(hash + "after hashing")
 }
 function savePassword(str){
-  console.log(str + "hashed string?")
   hash = str;
+  console.log(hash+ " actual")
 }
 var personSchema = mongoose.Schema({
   userName: String,
@@ -56,23 +56,28 @@ exports.create = function (req, res) {
 
 exports.createPerson = function (req, res) {
   makeHash(req.body.password)
-  console.log(hash);
-  var person = new Person({
-    userName: req.body.userName,
-    age: req.body.age,
-    password: hash,
-    admin: false,
-    email: req.body.email,
-    q1: req.body.q1,
-    q2: req.body.q2,
-    q3: req.body.q3
-  });
-  person.save(function (err, person) {
+  
+  //console.log(hash);
+  setTimeout(function(){
+    var person = new Person({
+      userName: req.body.userName,
+      age: req.body.age,
+      password: hash,
+      admin: false,
+      email: req.body.email,
+      q1: req.body.q1,
+      q2: req.body.q2,
+      q3: req.body.q3
+    });
+    person.save(function (err, person) {
     if (err) return console.error(err);
     console.log(req.body.userName + ' added');
   });
   console.log(person);
   res.redirect('/');
+  },1000);
+  
+  
 };
 
 exports.edit = function (req, res) {
@@ -126,13 +131,11 @@ exports.login = function (req,res) {
 };
 
 exports.loginPerson = function(req,res){
-  console.log(req.body.userName);
-  Person.find(req.body.userName, function(err, person){
+  Person.find({userName : req.body.userName}, function(err, person){
     if (err) return console.error(err);
-    console.log(person);
-    bcrypt.compare(req.body.password,person.password,function(err,res){
+    bcrypt.compare(req.body.password,person[0].password,function(err,res){
       console.log(res);
-      console.log(person.password);
+//      console.log(person.password);
       if (res) {
         req.session.user = { isAuthenticated: true, username: req.body.userName};
         
