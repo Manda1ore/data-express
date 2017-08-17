@@ -16,8 +16,10 @@ function makeHash(the_str){
     console.log(hash);
     savePassword(hash);
   });
+  console.log(hash + "after hashing")
 }
 function savePassword(str){
+  console.log(str + "hashed string?")
   hash = str;
 }
 var personSchema = mongoose.Schema({
@@ -59,6 +61,7 @@ exports.createPerson = function (req, res) {
     userName: req.body.userName,
     age: req.body.age,
     password: hash,
+    admin: false,
     email: req.body.email,
     q1: req.body.q1,
     q2: req.body.q2,
