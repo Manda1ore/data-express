@@ -13,14 +13,11 @@ var hash;
 function makeHash(the_str){
   
   bcrypt.hash(the_str, null, null, function (err,hash){
-    console.log(hash);
     savePassword(hash);
   });
-  console.log(hash + "after hashing")
 }
 function savePassword(str){
   hash = str;
-  console.log(hash+ " actual")
 }
 var personSchema = mongoose.Schema({
   userName: String,
@@ -56,7 +53,7 @@ exports.create = function (req, res) {
 
 exports.createPerson = function (req, res) {
   makeHash(req.body.password)
-  
+  console.log(req.body.q1)
   //console.log(hash);
   setTimeout(function(){
     var person = new Person({
@@ -65,15 +62,14 @@ exports.createPerson = function (req, res) {
       password: hash,
       admin: false,
       email: req.body.email,
-      q1: req.body.q1,
-      q2: req.body.q2,
-      q3: req.body.q3
+      q1: req.body.polution,
+      q2: req.body.food,
+      q3: req.body.favPet
     });
     person.save(function (err, person) {
     if (err) return console.error(err);
     console.log(req.body.userName + ' added');
   });
-  console.log(person);
   res.redirect('/');
   },1000);
   
@@ -91,21 +87,24 @@ exports.edit = function (req, res) {
 };
 
 exports.editPerson = function (req, res) {
+  makeHash(req.body.password)
+  setTimeout(function(){
   Person.findById(req.params.id, function (err, person) {
     if (err) return console.error(err);
     person.userName = req.body.userName;
     person.age = req.body.age;
     person.email = req.body.email;
-    person.password = req.body.password;
-    person.q1 = req.body.q1;
-    person.q2 = req.body.q2;
-    person.q3 = req.body.q3;
+    person.password = hash;
+    person.q1 = req.body.polution;
+    person.q2 = req.body.food;
+    person.q3 = req.body.favPet;
     person.save(function (err, person) {
       if (err) return console.error(err);
       console.log(req.body.userName + ' updated');
     });
   });
   res.redirect('/');
+  },1000);
 
 };
 
@@ -117,11 +116,11 @@ exports.delete = function (req, res) {
 };
 
 exports.details = function (req, res) {
-  Person.findById(req.params.id, function (err, person) {
+  Person.find(function (err, person) {
     if (err) return console.error(err);
     res.render('details', {
-      title: person.userName + "'s Details",
-      person: person
+      title: 'People List',
+      people: person
     });
   });
 };

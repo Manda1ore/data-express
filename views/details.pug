@@ -1,12 +1,16 @@
 extends layout
 
-table(class='gridtable')
+
+block content
+  table(class='gridtable')
     tr
       th Id
       th Name
       th Age
       th Password
       th q1
+      th q2
+      th q3
       th
       th 
     each item in people
@@ -17,11 +21,13 @@ table(class='gridtable')
         td #{item.age}
         td #{item.password}
         td #{item.q1}
+        td #{item.q2}
+        td #{item.q3}
         td
           a(href='/edit/' + item.id) Edit
         td
           a(href='/delete/' + item.id) Delete
 
-  p
-  #menu
-    a(href='/create') Add new person
+    p
+    #menu
+      a(href='/create') Add new person
