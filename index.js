@@ -31,7 +31,7 @@ app.get('/', route.index);
 app.get('/login', route.login);
 app.get('/create', route.create);
 app.get('/edit/:id', route.edit);
-app.get('/details/:id', route.details);
+app.get('/details', route.details);
 app.post('/login',urlencodedParser,route.loginPerson);
 app.post('/create', urlencodedParser, route.createPerson);
 app.post('/edit/:id', urlencodedParser, route.editPerson);

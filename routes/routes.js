@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
-
 var mdb = mongoose.connection;
 mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function (callback) {
@@ -14,10 +13,12 @@ var hash;
 function makeHash(the_str){
   
   bcrypt.hash(the_str, null, null, function (err,hash){
-    console.log(hash);
+    savePassword(hash);
   });
 }
-
+function savePassword(str){
+  hash = str;
+}
 var personSchema = mongoose.Schema({
   userName: String,
   password: String,
@@ -51,20 +52,28 @@ exports.create = function (req, res) {
 };
 
 exports.createPerson = function (req, res) {
-  var person = new Person({
-    userName: req.body.userName,
-    age: req.body.age,
-    password: makeHash(req.body.password),
-    email: req.body.email,
-    q1: req.body.q1,
-    q2: req.body.q2,
-    q3: req.body.q3
-  });
-  person.save(function (err, person) {
+  makeHash(req.body.password)
+  console.log(req.body.q1)
+  //console.log(hash);
+  setTimeout(function(){
+    var person = new Person({
+      userName: req.body.userName,
+      age: req.body.age,
+      password: hash,
+      admin: false,
+      email: req.body.email,
+      q1: req.body.polution,
+      q2: req.body.food,
+      q3: req.body.favPet
+    });
+    person.save(function (err, person) {
     if (err) return console.error(err);
-    console.log(req.body.useName + ' added');
+    console.log(req.body.userName + ' added');
   });
   res.redirect('/');
+  },1000);
+  
+  
 };
 
 exports.edit = function (req, res) {
@@ -78,21 +87,24 @@ exports.edit = function (req, res) {
 };
 
 exports.editPerson = function (req, res) {
+  makeHash(req.body.password)
+  setTimeout(function(){
   Person.findById(req.params.id, function (err, person) {
     if (err) return console.error(err);
     person.userName = req.body.userName;
     person.age = req.body.age;
     person.email = req.body.email;
-    person.password = req.body.password;
-    person.q1 = req.body.q1;
-    person.q2 = req.body.q2;
-    person.q3 = req.body.q3;
+    person.password = hash;
+    person.q1 = req.body.polution;
+    person.q2 = req.body.food;
+    person.q3 = req.body.favPet;
     person.save(function (err, person) {
       if (err) return console.error(err);
       console.log(req.body.userName + ' updated');
     });
   });
   res.redirect('/');
+  },1000);
 
 };
 
@@ -104,11 +116,11 @@ exports.delete = function (req, res) {
 };
 
 exports.details = function (req, res) {
-  Person.findById(req.params.id, function (err, person) {
+  Person.find(function (err, person) {
     if (err) return console.error(err);
     res.render('details', {
-      title: person.userName + "'s Details",
-      person: person
+      title: 'People List',
+      people: person
     });
   });
 };
@@ -118,18 +130,17 @@ exports.login = function (req,res) {
 };
 
 exports.loginPerson = function(req,res){
-  console.log(req.body.username);
-  Person.find(req.body.username, function(err, person){
+  Person.find({userName : req.body.userName}, function(err, person){
     if (err) return console.error(err);
-    bcrypt.compare(req.body.password,person.password,function(err,res){
+    bcrypt.compare(req.body.password,person[0].password,function(err,res){
       console.log(res);
+//      console.log(person.password);
+      if (res) {
+        req.session.user = { isAuthenticated: true, username: req.body.userName};
+        
+      } 
     });
+      res.redirect('/');
   });
-  if (req.body.username == 'user' && req.body.password == 'pass') {
-        req.session.user = { isAuthenticated: true, username: req.body.username};
-        res.redirect('/');
-    } else {
-        // logout here so if the user was logged in before, it will log them out if user/pass wrong
-        res.redirect('/');
-    }
+  
 }
