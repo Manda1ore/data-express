@@ -1,0 +1,142 @@
+#content {
+    width: 80%;
+    margin: auto;
+}
+
+#container {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+.color_index {
+    width: 20px;
+    height: 20px;
+    border: 1px soild black;
+}
+
+.color_index#red {
+    background: #f00;
+}
+
+.color_index#yellow {
+    background: #ff0;
+}
+
+.color_index#blue {
+    background: #00f;
+}
+
+.color_index#green {
+    background: #0f0;
+}
+
+.gridtable th {
+    background-color: #069108;
+    color: white;
+}
+
+.shade tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+ul {
+    list-style-type: none;
+}
+
+nav {
+    width: 100%;
+	display: inline-block;
+	height: 50px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #A00;
+}
+
+nav ul li {
+	list-style: none;
+	display: inline-block;
+	line-height: 50px;
+	vertical-align: middle;
+	float: left;
+}
+
+nav ul li a {
+	display: inline-block;
+	text-decoration: none;
+	margin-right: 50px;
+	padding: 0px 10px;
+	min-width: 50px;
+	text-align: center;
+}
+
+nav ul li:hover {
+	background:#069109;
+	cursor: pointer;
+}
+
+.form-style-1 {
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+}
+
+.form-style-1 label{
+    margin:0 0 3px 0;
+    padding:0px;
+    display:block;
+    font-weight: bold;
+}
+.form-style-1 input[type=text], 
+.form-style-1 input[type=select],
+textarea, 
+select{
+    box-sizing: border-box;
+    border:1px solid #BEBEBE;
+    padding: 10px;
+    margin: 20px;
+    outline: none;
+    width: 50%;
+}
+.form-style-1 input[type=text]:focus, 
+.form-style-1 input[type=select]:focus,
+.form-style-1 textarea:focus, 
+.form-style-1 select:focus{
+    -moz-box-shadow: 0 0 8px #88D5E9;
+    -webkit-box-shadow: 0 0 8px #88D5E9;
+    box-shadow: 0 0 8px #88D5E9;
+    border: 1px solid #88D5E9;
+}
+.form-style-1 .field-divided{
+    width: 49%;
+}
+
+.form-style-1 .field-long{
+    width: 100%;
+}
+.form-style-1 .field-select{
+    width: 100%;
+}
+.form-style-1 .field-textarea{
+    height: 100px;
+}
+.form-style-1 input[type=submit], .form-style-1 input[type=button]{
+    background: #069109;
+    padding: 8px 15px 8px 15px;
+    border: none;
+    color: #fff;
+}
+.form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
+    background: #4CAF50;
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+.form-style-1 .required{
+    color:red;
+}

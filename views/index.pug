@@ -71,11 +71,77 @@ block content
           answers3[3]++;
           break;
       }
-  canvas(width=400, height=400, id="q1")
+  table(class='shade')
+    tr
+      th What's your favourite type of pollution?
+    tr
+      td
+        canvas(width=400, height=400, id="q1")
+  table
+    tr
+      td Water
+      td 
+        div(class='color_index', id='red')
+    tr
+      td Air
+      td
+        div(class='color_index', id='yellow')
+    tr
+      td Noise
+      td
+        div(class='color_index', id='blue')
+    tr
+      td Radioactive
+      td
+        div(class='color_index', id='green')
   br
-  canvas(width=400, height=400, id="q2")
+  table(class='shade')
+    tr
+      th What's your favorite food?
+    tr
+      td
+        canvas(width=400, height=400, id="q2")
+  table
+    tr
+      td Pizza
+      td 
+        div(class='color_index', id='red')
+    tr
+      td Steak
+      td
+        div(class='color_index', id='yellow')
+    tr
+      td Salad
+      td
+        div(class='color_index', id='blue')
+    tr
+      td Crap
+      td
+        div(class='color_index', id='green')
   br
-  canvas(width=400, height=400, id="q3")
+  table(class='shade')
+    tr
+      th What's your favorite pet?
+    tr
+      td
+        canvas(width=400, height=400, id="q3")
+  table
+    tr
+      td Cat
+      td 
+        div(class='color_index', id='red')
+    tr
+      td Dog
+      td
+        div(class='color_index', id='yellow')
+    tr
+      td Bird
+      td
+        div(class='color_index', id='blue')
+    tr
+      td Dinosaur
+      td
+        div(class='color_index', id='green')
   script.
     for(var i = 0; i < 4; i++){
         values1[i] = answers1[i]/total;
@@ -92,19 +158,31 @@ block content
       var width_seg1 = width_inc-((width_inc/arr.length));
       var width_seg2 = width_inc-((width_inc/arr.length)*(arr.length-1));
 
-      ctx.fillStyle = "#ff0000";
-
       for(var i = 0; i < arr.length; i++){
+        switch(i){
+          case 0:
+            ctx.fillStyle = "#ff0000";
+            break;
+          case 1:
+            ctx.fillStyle = "#ffff00";
+            break;
+          case 2:
+            ctx.fillStyle = "#0000ff";
+            break;
+          case 3:
+            ctx.fillStyle = "#00ff00";
+            break;
+        }
+
+        ctx.beginPath();
         ctx.moveTo((width_inc*i)+width_seg2,cvs.height);
         ctx.lineTo((width_inc*i)+width_seg2,(cvs.height-arr[i]*cvs.height));
         ctx.lineTo((width_inc*i)+width_seg1,(cvs.height-arr[i]*cvs.height));
         ctx.lineTo((width_inc*i)+width_seg1,cvs.height);
 
         ctx.stroke();
+        ctx.fill();
       }
-
-      ctx.stroke();
-      ctx.fill();
     }
 
     drawGraph(values1,"q1");
