@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  form(id='form', method='post', action='/edit/' + person.id)
+    label(for='userName') Name: 
+    input(type='text', name='userName' value=person.userName)
+    br
+    label(for='age') Age: 
+    input(type='text', name='age' value=person.age)
+    br
+    label(for='password') Password:
+    input(type='text', name='password')
+    br
+    label(for='email') Email:
+    input(type='text', name='email' value=person.email)
+    br
+    label(for='q1') What's your favorite polution? 
+    select(name='polution')
+      option(selected = person.q1) #{person.q1}
+      option(value="Water Polution") Water Polution
+      option(value="Air Polution") Air Polution
+      option(value='Noise Polution') Noise Polution
+      option(value='Radioactive Polution') Radioactive Polution
+    br
+    label(for='q2') What's your favorite food? 
+    select(name='food')
+      option(selected = person.q3) #{person.q2}
+      option(value="Pizza") Pizza
+      option(value="Steak") Steak
+      option(value="Salad") Salad
+      option(value="Crap") Crap
+    br
+    label(for='q3') What's your favorite pet? 
+    select(name='favPet')
+      option(selected = person.q2) #{person.q3}
+      option(value="Cat") Cat
+      option(value="Dog") Dog
+      option(value="Bird") Bird
+      option(value='Dinosaur') Dinosaur
+    br
+    input(type='submit', value='Update Person')
