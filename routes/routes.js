@@ -85,7 +85,7 @@ exports.edit = function (req, res) {
 };
 
 exports.editPerson = function (req, res) {
-  makeHash(req.body.password)
+  makeHash(req.body.password);
   setTimeout(function(){
   Person.findById(req.params.id, function (err, person) {
     if (err) return console.error(err);
@@ -128,9 +128,11 @@ exports.login = function (req,res) {
 };
 
 exports.loginPerson = function(req,res){
+  makeHash(req.body.password);
+  setTimeout(function(){
   Person.find({userName : req.body.userName}, function(err, person){
     if (err) return console.error(err);
-    bcrypt.compare(req.body.password,person[0].password,function(err,res){
+    bcrypt.compare(hash,person[0].password,function(err,res){
       console.log(res);
 //      console.log(person.password);
       if (res) {
@@ -140,5 +142,5 @@ exports.loginPerson = function(req,res){
     });
       res.redirect('/');
   });
-  
+  },1000);
 }
