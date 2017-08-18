@@ -1,17 +1,113 @@
 extends layout
 
 block content
+  script.
+    var answers1 = [0,0,0,0];
+    var answers2 = [0,0,0,0];
+    var answers3 = [0,0,0,0];
+
+    var values1 = [0,0,0,0];
+    var values2 = [0,0,0,0];
+    var values3 = [0,0,0,0];
+
+    var total = 0;
+
+    var Water = "Water";
+    var Air = "Air";
+    var Noise = "Noise";
+    var Radioactive = "Radioactive";
+    
+    var Pizza = "Pizza";
+    var Steak = "Steak";
+    var Salad = "Salad";
+    var Crap = "Crap";
+
+    var Cat = "Cat";
+    var Dog = "Dog";
+    var Bird = "Bird";
+    var Dinosaur = "Dinosaur";
   each item in people
-    p #{item}
-  div(onclick="printThing(people)")
-    p hello
-  a(href="/login/") Login
-  br
-  a(href="/create/") Sign up
-  br
+    script.
+      total++;
+      switch(#{item.q1}){
+        case Water:
+          answers1[0]++;
+          break;
+        case Air:
+          answers1[1]++;
+          break;
+        case Noise:
+          answers1[2]++;
+          break;
+        case Radioactive:
+          answers1[3]++;
+          break;
+      }
+      switch(#{item.q2}){
+        case Pizza:
+          answers2[0]++;
+          break;
+        case Steak:
+          answers2[1]++;
+          break;
+        case Salad:
+          answers2[2]++;
+          break;
+        case Crap:
+          answers2[3]++;
+          break;
+      }
+      switch(#{item.q3}){
+        case Cat:
+          answers3[0]++;
+          break;
+        case Dog:
+          answers3[1]++;
+          break;
+        case Bird:
+          answers3[2]++;
+          break;
+        case Dinosaur:
+          answers3[3]++;
+          break;
+      }
   canvas(width=400, height=400, id="q1")
   br
   canvas(width=400, height=400, id="q2")
   br
   canvas(width=400, height=400, id="q3")
+  script.
+    for(var i = 0; i < 4; i++){
+        values1[i] = answers1[i]/total;
+        values2[i] = answers2[i]/total;
+        values3[i] = answers3[i]/total;
+    }
+
+    function drawGraph(arr, canvasId){
+      var cvs = document.getElementById(canvasId);
+      var ctx = cvs.getContext("2d");
+
+      var width_inc = cvs.width/arr.length;
+
+      var width_seg1 = width_inc-((width_inc/arr.length));
+      var width_seg2 = width_inc-((width_inc/arr.length)*(arr.length-1));
+
+      ctx.fillStyle = "#ff0000";
+
+      for(var i = 0; i < arr.length; i++){
+        ctx.moveTo((width_inc*i)+width_seg2,cvs.height);
+        ctx.lineTo((width_inc*i)+width_seg2,(cvs.height-arr[i]*cvs.height));
+        ctx.lineTo((width_inc*i)+width_seg1,(cvs.height-arr[i]*cvs.height));
+        ctx.lineTo((width_inc*i)+width_seg1,cvs.height);
+
+        ctx.stroke();
+      }
+
+      ctx.stroke();
+      ctx.fill();
+    }
+
+    drawGraph(values1,"q1");
+    drawGraph(values2,"q2");
+    drawGraph(values3,"q3");
   script(src="scripts/graph.js")

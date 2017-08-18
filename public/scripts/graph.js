@@ -1,6 +1,8 @@
+/*
 drawGraph([.25,.25,.25,.25],"q1");
 drawGraph([.50,.50,0,0],"q2");
 drawGraph([0,0,.50,.50],"q3");
+*/
 
 var answers1 = [0,0,0,0];
 var answers2 = [0,0,0,0];
@@ -74,7 +76,7 @@ function sendInfo3(value){
 }
 
 function calcPercents(){
-    for(var i = 0; i< 4; i++){
+    for(var i = 0; i < 4; i++){
         answers1[i] = values1[i]/total;
         answers2[i] = values2[i]/total;
         answers3[i] = values3[i]/total;
