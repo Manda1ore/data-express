@@ -33,8 +33,6 @@ var personSchema = mongoose.Schema({
 
 var Person = mongoose.model('People_Collection', personSchema);
 
-
-
 exports.index = function (req, res) {
   Person.find(function (err, person) {
     if (err) return console.error(err);

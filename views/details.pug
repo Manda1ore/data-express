@@ -2,24 +2,22 @@ extends layout
 
 
 block content
-  table(class='gridtable')
+  table(class='gridtable shade')
     tr
       th Id
       th Name
       th Age
-      th Password
-      th q1
-      th q2
-      th q3
+      th Favorite Type of Pollution
+      th Favorite Food
+      th Favorite Pet
       th
-      th 
+      th
     each item in people
       tr
         td
           a(href='/details/' + item.id) #{item.id}
         td #{item.userName}
         td #{item.age}
-        td #{item.password}
         td #{item.q1}
         td #{item.q2}
         td #{item.q3}
@@ -27,7 +25,6 @@ block content
           a(href='/edit/' + item.id) Edit
         td
           a(href='/delete/' + item.id) Delete
-
-    p
-    #menu
-      a(href='/create') Add new person
+    tr
+      td 
+        a(href='/create') Add new person

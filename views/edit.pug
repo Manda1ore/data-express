@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form(id='form', method='post', action='/edit/' + person.id)
+  form(id='form', method='post', action='/edit/' + person.id, class='form-style-1')
     label(for='userName') Name: 
     input(type='text', name='userName' value=person.userName)
     br
@@ -9,7 +9,7 @@ block content
     input(type='text', name='age' value=person.age)
     br
     label(for='password') Password:
-    input(type='text', name='password')
+    input(type='text', name='password' value=person.password)
     br
     label(for='email') Email:
     input(type='text', name='email' value=person.email)
@@ -24,7 +24,7 @@ block content
     br
     label(for='q2') What's your favorite food? 
     select(name='food')
-      option(selected = person.q3) #{person.q2}
+      option(selected = person.q2) #{person.q2}
       option(value="Pizza") Pizza
       option(value="Steak") Steak
       option(value="Salad") Salad
