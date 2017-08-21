@@ -14,7 +14,7 @@ block content
     label(for='email') Email:
     input(type='text', name='email' value=person.email)
     br
-    label(for='q1') What's your favorite polution? 
+    label(for='q1') What's your favorite type of pollution? 
     select(name='polution')
       option(selected = person.q1) #{person.q1}
       option(value="Water Polution") Water Polution
@@ -32,7 +32,7 @@ block content
     br
     label(for='q3') What's your favorite pet? 
     select(name='favPet')
-      option(selected = person.q2) #{person.q3}
+      option(selected = person.q3) #{person.q3}
       option(value="Cat") Cat
       option(value="Dog") Dog
       option(value="Bird") Bird
