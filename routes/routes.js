@@ -30,6 +30,14 @@ var personSchema = mongoose.Schema({
   q3: String
 });
 
+var checkAuth = function (req, res, next) {
+  console.log(req.session.user);
+    if (req.session.user && req.session.user.isAuthenticated) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+};
 
 var Person = mongoose.model('People_Collection', personSchema);
 
@@ -114,6 +122,8 @@ exports.delete = function (req, res) {
 };
 
 exports.details = function (req, res) {
+  checkAuth()
+  console.log("details" + req.session.user);
   Person.find(function (err, person) {
     if (err) return console.error(err);
     res.render('details', {
@@ -128,18 +138,19 @@ exports.login = function (req,res) {
 };
 
 exports.loginPerson = function(req,res){
-  makeHash(req.body.password);
   setTimeout(function(){
   Person.find({userName : req.body.userName}, function(err, person){
     if (err) return console.error(err);
-    bcrypt.compare(hash,person[0].password,function(err,res){
+    bcrypt.compare(req.body.password,person[0].password,function(err,res){
       console.log(res);
 //      console.log(person.password);
       if (res) {
-        req.session.user = { isAuthenticated: true, username: req.body.userName};
-        
+        console.log("success login")
+        req.session.user = { isAuthenticated: true, username: req.body.userName, isAdmin: person[0].admin};
       } 
+      console.log(req.session.user);
     });
+    
       res.redirect('/');
   });
   },1000);

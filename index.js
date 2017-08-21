@@ -9,6 +9,7 @@ var app = express();
 var hash;
 
 var checkAuth = function (req, res, next) {
+  console.log(req.session.user);
     if (req.session.user && req.session.user.isAuthenticated) {
         next();
     } else {
@@ -32,7 +33,7 @@ app.get('/login', route.login);
 app.get('/create', route.create);
 app.get('/edit/:id', route.edit);
 app.get('/details', route.details);
-app.post('/login',urlencodedParser,route.loginPerson);
+app.post('/login', urlencodedParser,route.loginPerson);
 app.post('/create', urlencodedParser, route.createPerson);
 app.post('/edit/:id', urlencodedParser, route.editPerson);
 app.get('/delete/:id', route.delete);
